@@ -3,6 +3,7 @@ package com.lambdaschool.movingspinner;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -10,6 +11,8 @@ import android.view.View;
 
 public class MovingSpinner extends View {
     Paint paint;
+
+    Rect rect;
 
     float x = 0, y = 0;
     float touchX, touchY;
@@ -42,6 +45,8 @@ public class MovingSpinner extends View {
     private void init() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(getResources().getColor(android.R.color.holo_red_dark));
+
+        rect = new Rect();
     }
 
     @Override
@@ -50,8 +55,9 @@ public class MovingSpinner extends View {
             case MotionEvent.ACTION_DOWN:
                 touchX = event.getX();
                 touchY = event.getY();
-                move = ((touchX < rectEndX && touchX > rectStartX) &&
-                        (touchY < rectEndY && touchY > rectStartY));
+                /*move = ((touchX < rectEndX && touchX > rectStartX) &&
+                        (touchY < rectEndY && touchY > rectStartY));*/
+                move = rect.contains((int)touchX, (int)touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 if(!move) {
@@ -97,7 +103,7 @@ public class MovingSpinner extends View {
         final int width  = getWidth() / 2;
         final int height = getHeight() / 2;
 
-        canvas.rotate(rotation, getWidth() / 2f, getHeight() / 2f);
+        canvas.rotate(rotation, rect.centerX(), rect.centerY());
 
         // first 2 params are start x,y last two are end x,y
         rectStartX = 100 + x;
@@ -105,7 +111,16 @@ public class MovingSpinner extends View {
 
         rectEndX = 100 + width + x;
         rectEndY = 100 + height + y;
-        canvas.drawRect(rectStartX, rectStartY, rectEndX, rectEndY, paint);
+
+        rect.left = (int)rectStartX;
+        rect.top = (int)rectStartY;
+
+        rect.right = (int)rectEndX;
+        rect.bottom = (int)rectEndY;
+
+        canvas.drawRect(rect, paint);
+
+//        canvas.drawRect(rectStartX, rectStartY, rectEndX, rectEndY, paint);
 
         super.onDraw(canvas);
     }
