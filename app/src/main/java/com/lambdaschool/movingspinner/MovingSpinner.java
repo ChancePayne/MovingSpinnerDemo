@@ -47,12 +47,12 @@ public class MovingSpinner extends View {
         paint.setColor(getResources().getColor(android.R.color.holo_red_dark));
 
         path = new Path();
-        /*final ArrayList<Point> verticies = new ArrayList<>();
+        final ArrayList<Point> verticies = new ArrayList<>();
         verticies.add(new Point(100, 600));
         verticies.add(new Point(600, 600));
         verticies.add(new Point(600, 100));
         verticies.add(new Point(100, 100));
-        shape = new Shape(verticies, paint)*/;
+        shape = new Shape(verticies, paint);
     }
 
     @Override

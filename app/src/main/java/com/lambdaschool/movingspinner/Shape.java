@@ -132,13 +132,6 @@ public class Shape {
         return builder.build().contains(new com.snatik.polygon.Point(x, y));
     }
 
-    /*public void move(int x, int y) {
-        for(int i = 0; i < startingVerticies.size(); ++i) {
-            final Point pt = startingVerticies.get(i);
-            startingVerticies.set(i, new Point(pt.x + x, pt.y + y));
-        }
-    }*/
-
     public Path getPath(int x, int y) {
         Path path = new Path();
         path.moveTo(startingVerticies.get(0).x + x, startingVerticies.get(0).y + y);
